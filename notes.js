@@ -1,12 +1,5 @@
-// Require File System
 const fs = require("fs");
 const chalk = require("chalk");
-const { title } = require("process");
-
-// Get Notes
-const getNotes = () => {
-  return "Your Notes...";
-};
 
 // Add note objects to notes.JSON
 const addNote = (title, body) => {
@@ -81,7 +74,6 @@ const loadNotes = () => {
 
 // Module Exports
 module.exports = {
-  getNotes: getNotes,
   addNote: addNote,
   removeNote: removeNote,
   listNotes: listNotes,
