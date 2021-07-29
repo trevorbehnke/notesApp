@@ -1,10 +1,14 @@
+// Require File System
 const fs = require("fs");
+const chalk = require("chalk");
 
+// Get Notes
 const getNotes = function () {
   return "Your Notes...";
 };
 
-const addNotes = function (title, body) {
+// Add note objects to notes.JSON
+const addNote = function (title, body) {
   const notes = loadNotes();
   const duplicateNotes = notes.filter(function (note) {
     return note.title === title;
@@ -16,17 +20,34 @@ const addNotes = function (title, body) {
       body: body,
     });
     saveNotes(notes);
-    console.log("New note added!");
+    console.log(chalk.green.inverse("New note added!"));
   } else {
-    console.log("Note title taken!");
+    console.log(chalk.red.inverse("Note title taken!"));
   }
 };
 
+// Remove note objects from notes.JSON
+const removeNote = function (title) {
+  const notes = loadNotes();
+  const notesToKeep = notes.filter(function (note) {
+    return note.title !== title;
+  });
+
+  if (notes.length > notesToKeep.length) {
+    console.log(chalk.green.inverse("Note Removed!"));
+    saveNotes(notesToKeep);
+  } else {
+    console.log(chalk.red.inverse("No note found!"));
+  }
+};
+
+// Stringify notes.JSON to JSON
 const saveNotes = function (notes) {
   const dataJSON = JSON.stringify(notes);
   fs.writeFileSync("notes.json", dataJSON);
 };
 
+// Parse notes.JSON to objects
 const loadNotes = function () {
   try {
     const dataBuffer = fs.readFileSync("notes.json");
@@ -37,7 +58,9 @@ const loadNotes = function () {
   }
 };
 
+// Module Exports
 module.exports = {
   getNotes: getNotes,
-  addNote: addNotes,
+  addNote: addNote,
+  removeNote: removeNote,
 };
